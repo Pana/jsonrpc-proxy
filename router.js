@@ -2,15 +2,12 @@ const Router = require('koa-router');
 const router = new Router();
 const axios = require('axios').default;
 const URL = require('./config.json').url;
-// const URL = 'https://evm.confluxrpc.com';
+const debug = require('debug')('rpc-proxy');
+const JsonRpcProxy  = require('web3-providers-http-proxy');
 
-const toHack = [
-  'eth_getBalance',
-  'eth_getCode',
-  'eth_call'
-];
+const proxy = new JsonRpcProxy(URL);
 
-router.post('/', async ctx => {
+router.post('/proxyWithLog', async ctx => {
   const {
     id,
     jsonrpc,
@@ -18,13 +15,8 @@ router.post('/', async ctx => {
     params,
   } = ctx.request.body;
 
-  if (method === 'eth_getStorageAt' && params[2] === 'pending') {
-    params[2] = 'latest';
-  }
-  if (toHack.includes(method) && params[1] === 'pending') {
-    params[1] = 'latest';
-  }
-  // console.log(method, params);
+  debug(method, params);
+
   const { data } = await axios.post(URL, {
     id,
     jsonrpc,
@@ -32,6 +24,20 @@ router.post('/', async ctx => {
     params,
   });
   ctx.body = data;
+});
+
+router.post('/', async ctx => {
+    const {
+        id,
+        jsonrpc,
+        method,
+        params,
+    } = ctx.request.body;
+
+    debug(method, params);
+
+    let result = await proxy.asyncSend(ctx.request.body);
+    ctx.body = result;
 });
 
 module.exports = router;
