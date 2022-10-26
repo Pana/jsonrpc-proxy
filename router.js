@@ -5,7 +5,7 @@ const URL = require('./config.json').url;
 const debug = require('debug')('rpc-proxy');
 const JsonRpcProxy  = require('web3-providers-http-proxy');
 
-const proxy = new JsonRpcProxy(URL);
+const proxy = new JsonRpcProxy(URL, {respAddressBeHex: true});
 
 router.post('/proxyWithLog', async ctx => {
   const {
