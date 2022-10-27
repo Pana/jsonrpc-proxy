@@ -4,6 +4,8 @@ const axios = require('axios').default;
 const URL = require('./config.json').url;
 const debug = require('debug')('rpc-proxy');
 const JsonRpcProxy  = require('web3-providers-http-proxy');
+const fs = require('fs');
+const path = require('path');
 
 const proxy = new JsonRpcProxy(URL, {respAddressBeHex: true, respTxBeEip155: true});
 
@@ -34,6 +36,7 @@ router.post('/', async ctx => {
             params,
         } = req;
         debug(method, params);
+        fs.appendFile(path.join(__dirname, './log.txt'), JSON.stringify({method, params}, null, '\t'), () => {});
     }
 
     const result = await proxy.asyncSend(ctx.request.body);
