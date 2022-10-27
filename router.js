@@ -27,16 +27,16 @@ router.post('/proxyWithLog', async ctx => {
 });
 
 router.post('/', async ctx => {
-    const {
-        id,
-        jsonrpc,
-        method,
-        params,
-    } = ctx.request.body;
+    const reqs = Array.isArray(ctx.request.body) ? ctx.request.body : [ctx.request.body];
+    for(let req of reqs) {
+        const {
+            method,
+            params,
+        } = req;
+        debug(method, params);
+    }
 
-    debug(method, params);
-
-    let result = await proxy.asyncSend(ctx.request.body);
+    const result = await proxy.asyncSend(ctx.request.body);
     ctx.body = result;
 });
 
