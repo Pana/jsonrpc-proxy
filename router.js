@@ -54,7 +54,7 @@ router.post('/', async ctx => {
             method,
             params,
         } = body;
-        fs.appendFile(path.join(__dirname, './log.txt'), JSON.stringify({method, params, respError: result.error}, null, '\t'), () => {});
+        fs.appendFile(path.join(__dirname, './error.txt'), JSON.stringify({method, params, respError: result.error}, null, '\t'), () => {});
     }
     ctx.body = result;
 });
