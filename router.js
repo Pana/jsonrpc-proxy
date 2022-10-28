@@ -29,7 +29,16 @@ router.post('/proxyWithLog', async ctx => {
 });
 
 router.post('/', async ctx => {
-    const reqs = Array.isArray(ctx.request.body) ? ctx.request.body : [ctx.request.body];
+    const body = ctx.request.body;
+    if (!Array.isArray(body) && Object.keys(body).length === 0) {
+        ctx.body = {
+            error: {code: -32600, message: 'Invalid Request'},
+            id: 1,
+            jsonrpc: '2.0',
+        };
+        return;
+    }
+    const reqs = Array.isArray(body) ? body : [body];
     for(let req of reqs) {
         const {
             method,
@@ -40,6 +49,9 @@ router.post('/', async ctx => {
     }
 
     const result = await proxy.asyncSend(ctx.request.body);
+    if (result.error) {
+        fs.appendFile(path.join(__dirname, './log.txt'), JSON.stringify(result.error, null, '\t'), () => {});
+    }
     ctx.body = result;
 });
 
