@@ -50,7 +50,7 @@ router.post('/', async ctx => {
 
     const result = await proxy.asyncSend(ctx.request.body);
     if (result.error) {
-        fs.appendFile(path.join(__dirname, './log.txt'), JSON.stringify(result.error, null, '\t'), () => {});
+        fs.appendFile(path.join(__dirname, './log.txt'), JSON.stringify({method, params, respError: result.error}, null, '\t'), () => {});
     }
     ctx.body = result;
 });
