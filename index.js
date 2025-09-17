@@ -29,9 +29,9 @@ const logger = winston.createLogger({
 app.use(bodyParser());
 
 app.use(jsonrpcMeta(logger));
-app.use(adaptEthCall);
-app.use(adaptTxRelatedMethods);
-app.use(blockMethods);
+// app.use(adaptEthCall);
+// app.use(adaptTxRelatedMethods);
+// app.use(blockMethods);
 
 // 不支持 batch 请求
 app.use(async (ctx) => {
