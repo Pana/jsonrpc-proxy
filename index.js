@@ -15,7 +15,7 @@ var log_transport = new winston.transports.DailyRotateFile({
     filename: './logs/proxy-%DATE%.log',
     datePattern: 'YYYY-MM-DD-HH',
     zippedArchive: true,
-    maxSize: '100m',
+    maxSize: '1000m',
     maxFiles: '3d'
 });
 

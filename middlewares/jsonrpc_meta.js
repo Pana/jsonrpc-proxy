@@ -7,7 +7,7 @@ module.exports = function (logger) {
             ctx.request.rpcId = id;
             ctx.request.rpcMethod = method;
 
-            logger.info(`Request: Req-${id} ${method}, ${JSON.stringify(params, null, '\t')}`);
+            // logger.info(`Request: Req-${id} ${method}, ${JSON.stringify(params, null, '\t')}`);
 
             await next();
 
@@ -18,7 +18,11 @@ module.exports = function (logger) {
                     error: ctx.body.error
                 })}`);
             } else {
-                logger.info(`Response: ${JSON.stringify(ctx.body, null, '\t')}`);
+                logger.info(`Response: ${JSON.stringify({
+                    method,
+                    params,
+                    result: ctx.body.result
+                }, null, '\t')}`);
             }
         } catch (error) {
             logger.error(`Error: ${error.message || error}  body: ${ctx.request.body ? JSON.stringify(ctx.request.body) : ''}`);
