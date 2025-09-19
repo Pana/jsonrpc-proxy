@@ -11,14 +11,14 @@ module.exports = function (logger) {
 
             await next();
 
-            logger.info(`Response: ${JSON.stringify(ctx.body, null, '\t')}`);
-
             if (ctx.body.error) {
                 logger.error(`Req-${id} Error: ${JSON.stringify({
                     method,
                     params,
                     error: ctx.body.error
                 })}`);
+            } else {
+                logger.info(`Response: ${JSON.stringify(ctx.body, null, '\t')}`);
             }
         } catch (error) {
             logger.error(`Error: ${error.message || error}  body: ${ctx.request.body ? JSON.stringify(ctx.request.body) : ''}`);
