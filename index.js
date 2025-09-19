@@ -20,7 +20,7 @@ var log_transport = new winston.transports.DailyRotateFile({
 });
 
 var error_transport = new winston.transports.DailyRotateFile({
-    level: 'info',
+    level: 'error',
     filename: './logs/error-%DATE%.log',
     datePattern: 'YYYY-MM-DD-HH',
     zippedArchive: true,

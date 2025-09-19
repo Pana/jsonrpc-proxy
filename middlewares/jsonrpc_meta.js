@@ -21,7 +21,7 @@ module.exports = function (logger) {
                 })}`);
             }
         } catch (error) {
-            logger.error(`Error: ${error.message || error}`);
+            logger.error(`Error: ${error.message || error}  body: ${ctx.request.body ? JSON.stringify(ctx.request.body) : ''}`);
             throw error;
         }
     }
