@@ -13,7 +13,7 @@ const TARGET_URL = process.env.JSONRPC_URL;
 var log_transport = new winston.transports.DailyRotateFile({
     level: 'info',
     filename: './logs/proxy-%DATE%.log',
-    datePattern: 'YYYY-MM-DD-HH',
+    datePattern: 'YYYY-MM-DD',
     zippedArchive: true,
     maxSize: '1000m',
     maxFiles: '3d'
@@ -22,7 +22,7 @@ var log_transport = new winston.transports.DailyRotateFile({
 var error_transport = new winston.transports.DailyRotateFile({
     level: 'error',
     filename: './logs/error-%DATE%.log',
-    datePattern: 'YYYY-MM-DD-HH',
+    datePattern: 'YYYY-MM-DD',
     zippedArchive: true,
     maxSize: '100m',
     maxFiles: '7d'
