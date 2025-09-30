@@ -5,6 +5,7 @@ require('winston-daily-rotate-file');
 const { bodyParser } = require("@koa/bodyparser");
 require('dotenv').config();
 const jsonrpcMeta = require('./middlewares/jsonrpc_meta');
+const ethCallMiddleware = require('./middlewares/eth_call');
 
 const app = new Koa();
 const PORT = process.env.PORT || 3000;
@@ -45,6 +46,8 @@ const logger = winston.createLogger({
 app.use(bodyParser());
 
 app.use(jsonrpcMeta(logger));
+
+app.use(ethCallMiddleware);
 
 // 不支持 batch 请求
 app.use(async (ctx) => {
